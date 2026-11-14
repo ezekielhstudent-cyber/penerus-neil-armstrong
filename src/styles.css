@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --color-bg: #141210;
+  --color-surface: #1e1b17;
+  --color-surface-2: #2a261f;
+  --color-fg: #f4efe6;
+  --color-muted: #b3a898;
+  --color-line: #3d362e;
+  --color-ember: #e07a3d;
+  --color-ember-ink: #2a1408;
+  --color-moss: #8faf86;
+  --radius: 0.875rem;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field span {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.field select,
+.field input {
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  background: var(--color-surface-2);
+  color: var(--color-fg);
+  padding: 0.4rem 0.7rem;
+  font: inherit;
+}
+
+.chip {
+  min-height: 2.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-fg);
+  padding: 0.35rem 0.9rem;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.chip[data-on="true"] {
+  border-color: var(--color-ember);
+  background: var(--color-ember);
+  color: var(--color-ember-ink);
+  font-weight: 650;
+}
+
+.heat {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 3px;
+}
+
+.heat th {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0 0.1rem;
+}
+
+.heat td {
+  width: 2.15rem;
+  height: 1.4rem;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.heat td.nd {
+  color: var(--color-muted);
+  background: transparent;
+}
+
+.map-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+  border-radius: 0.7rem;
+  background: var(--color-surface-2);
+  cursor: crosshair;
+}
+
+.legend-bar {
+  height: 0.55rem;
+  border-radius: 999px;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}

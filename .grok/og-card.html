@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #141210;
+      }
+      .stage {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        background:
+          radial-gradient(ellipse 70% 28% at 50% 70%, rgba(224, 122, 61, 0.42), transparent 62%),
+          radial-gradient(ellipse 28% 12% at 50% 66%, rgba(243, 236, 230, 0.16), transparent 70%),
+          linear-gradient(180deg, #141210 0%, #1a1613 42%, #2a1d16 68%, #141210 100%);
+      }
+      svg.land {
+        position: absolute;
+        inset: 0;
+        width: 1200px;
+        height: 630px;
+      }
+      .haze {
+        position: absolute;
+        left: 180px;
+        right: 180px;
+        top: 250px;
+        height: 180px;
+        background: radial-gradient(ellipse at center, rgba(243, 236, 230, 0.07), transparent 70%);
+        filter: blur(8px);
+      }
+      .lockup {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #f3ece6;
+        text-align: center;
+        transform: translateY(-18px);
+      }
+      h1 {
+        margin: 0;
+        font-family: "Liberation Serif", "FreeSerif", serif;
+        font-weight: 500;
+        font-size: 86px;
+        line-height: 0.9;
+        letter-spacing: 0.16em;
+      }
+      h1 span { display: block; padding-left: 0.16em; }
+      h1 .brief {
+        margin-top: 14px;
+        font-size: 64px;
+        letter-spacing: 0.34em;
+        padding-left: 0.34em;
+      }
+      .rule {
+        width: 64px;
+        height: 3px;
+        margin: 26px 0 18px;
+        background: #e07a3d;
+      }
+      .tag {
+        margin: 0;
+        padding-left: 0.42em;
+        font-family: "Liberation Sans", "FreeSans", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.42em;
+        color: #f3ece6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="haze"></div>
+      <svg class="land" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="#8faf86" opacity="0.55" d="M0 470c80-36 140-28 210-8 90 26 150 18 230-16 70-30 130-22 200 6 80 32 140 20 210-10 60-26 110-18 160 4 40 16 80 14 190-8v192H0z"/>
+        <path fill="#6e8d68" d="M0 500c90-40 160-22 240 4 70 22 120 16 190-18 80-38 150-20 230 10 90 34 160 22 240-6 50-18 90-10 120 6 40 18 70 12 180-14v148H0z"/>
+        <g fill="#141210">
+          <path d="M0 560c40-70 70-120 78-150 6 40 18 78 28 150H0z"/>
+          <path d="M70 560c18-90 40-160 52-210 10 48 22 110 30 210H70z"/>
+          <path d="M150 568c22-110 48-190 58-250 8 60 20 140 28 250h-86z"/>
+          <path d="M250 572c14-70 30-120 36-150 8 36 16 80 22 150h-58z"/>
+          <path d="M340 575c20-100 42-170 50-220 10 50 18 120 26 220h-76z"/>
+          <path d="M460 568c16-80 34-140 40-180 8 40 16 100 22 180h-62z"/>
+          <path d="M560 578c24-120 50-200 60-260 12 64 22 150 30 260h-90z"/>
+          <path d="M680 572c14-60 28-110 34-140 6 34 14 80 18 140h-52z"/>
+          <path d="M760 566c22-110 46-180 54-240 10 58 20 140 28 240h-82z"/>
+          <path d="M870 574c16-80 32-140 38-180 8 44 16 100 22 180h-60z"/>
+          <path d="M970 560c20-100 44-170 52-230 10 54 22 130 30 230h-82z"/>
+          <path d="M1080 570c18-90 36-150 44-200 8 48 16 110 22 200h-66z"/>
+          <path d="M1160 575c12-50 22-90 26-120 4 30 8 70 14 120h-40z"/>
+          <rect x="0" y="575" width="1200" height="55"/>
+        </g>
+        <g fill="#e07a3d">
+          <circle cx="248" cy="468" r="3.2" opacity="0.9"/>
+          <circle cx="402" cy="456" r="2.4" opacity="0.75"/>
+          <circle cx="618" cy="448" r="3.6" opacity="0.95"/>
+          <circle cx="804" cy="460" r="2.2" opacity="0.7"/>
+          <circle cx="992" cy="452" r="3" opacity="0.85"/>
+        </g>
+      </svg>
+      <div class="lockup">
+        <h1>
+          <span>KARHUTLA</span>
+          <span class="brief">BRIEF</span>
+        </h1>
+        <div class="rule"></div>
+        <p class="tag">HOTSPOTS AT DAWN</p>
+      </div>
+    </div>
+  </body>
+</html>

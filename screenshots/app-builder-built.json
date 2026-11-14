@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Karhutla Brief",
+      "hasCanvas": false,
+      "bodyTextLen": 5189,
+      "bodyTextHash": "fdf3ae78b39aac142dde998e3ab210339ca4d236455c5747e643d826c4666245",
+      "bodyTextPrefix": "NASA FIRMS · KALIMANTAN Karhutla brief Harmonized MODIS Aqua and",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Karhutla Brief",
+      "hasCanvas": false,
+      "bodyTextLen": 5189,
+      "bodyTextHash": "fdf3ae78b39aac142dde998e3ab210339ca4d236455c5747e643d826c4666245",
+      "bodyTextPrefix": "NASA FIRMS · KALIMANTAN Karhutla brief Harmonized MODIS Aqua and",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}
