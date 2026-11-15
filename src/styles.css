@@ -99,6 +99,13 @@
   border-spacing: 3px;
 }
 
+.heat th:first-child,
+.heat tbody th {
+  text-align: right;
+  padding-right: 0.5rem;
+  width: 2.6rem;
+}
+
 .heat th {
   color: var(--color-muted);
   font-size: 0.72rem;
@@ -116,6 +123,11 @@
   font-variant-numeric: tabular-nums;
 }
 
+.heat td.prov {
+  outline: 1.5px dashed var(--color-ember);
+  outline-offset: -2px;
+}
+
 .heat td.nd {
   color: var(--color-muted);
   background: transparent;
@@ -125,7 +137,7 @@
   display: block;
   width: 100%;
   height: auto;
-  touch-action: none;
+  touch-action: pan-y pinch-zoom;
   border-radius: 0.7rem;
   background: var(--color-surface-2);
   cursor: crosshair;
