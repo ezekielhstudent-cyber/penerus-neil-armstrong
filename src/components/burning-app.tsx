@@ -319,12 +319,12 @@ export function BurningApp() {
               className="legend-bar"
               style={{
                 background:
-                  "linear-gradient(to right, #fde725, #b5de2b, #6ece58, #35b779, #1f9e89, #26828e, #31688e, #3e4989, #482878, #440154)",
+                  "linear-gradient(to right, #e5e7eb 0%, #fee08b 25%, #fc8d59 55%, #d73027 80%, #99000d 100%)",
               }}
             />
             <div className="mt-1 flex justify-between text-xs text-muted">
               <span>0 (Quieter)</span>
-              <span className="num">60+ / 1,000 km² / year (Viridis_r)</span>
+              <span className="num">60+ / 1,000 km² / year (YlOrRd)</span>
             </div>
           </div>
         </article>
