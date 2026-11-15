@@ -715,44 +715,6 @@ function HeatTable({
 }
 
 
-declare global {
-  interface Window {
-    Plotly?: {
-      react: (el: HTMLElement, data: unknown[], layout: Record<string, unknown>, config?: Record<string, unknown>) => Promise<HTMLElement>;
-      purge: (el: HTMLElement) => void;
-    };
-  }
-}
-
-let plotlyLoader: Promise<NonNullable<Window["Plotly"]>> | null = null;
-
-function loadPlotly(): Promise<NonNullable<Window["Plotly"]>> {
-  if (typeof window !== "undefined" && window.Plotly) {
-    return Promise.resolve(window.Plotly);
-  }
-  if (!plotlyLoader) {
-    plotlyLoader = new Promise((resolve, reject) => {
-      const existing = document.querySelector<HTMLScriptElement>('script[data-plotly-cdn="1"]');
-      if (existing) {
-        existing.addEventListener("load", () => (window.Plotly ? resolve(window.Plotly) : reject(new Error("Plotly missing"))));
-        existing.addEventListener("error", () => reject(new Error("Failed to load Plotly")));
-        return;
-      }
-      const script = document.createElement("script");
-      script.src = "https://cdn.plot.ly/plotly-2.35.2.min.js";
-      script.async = true;
-      script.dataset.plotlyCdn = "1";
-      script.onload = () => {
-        if (window.Plotly) resolve(window.Plotly);
-        else reject(new Error("Plotly unavailable after load"));
-      };
-      script.onerror = () => reject(new Error("Failed to load Plotly script"));
-      document.head.appendChild(script);
-    });
-  }
-  return plotlyLoader;
-}
-
 function PlotlyCartoMap({
   cellDensity,
   prov,
@@ -767,7 +729,7 @@ function PlotlyCartoMap({
   onSelectBox: (box: Box) => void;
 }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [loadError, setLoadError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const handlersRef = useRef({ onPickProvince, onSelectBox });
   handlersRef.current = { onPickProvince, onSelectBox };
 
@@ -796,9 +758,9 @@ function PlotlyCartoMap({
       );
     }
 
-    const traces: unknown[] = [
+    const traces: any[] = [
       {
-        type: "scattermapbox",
+        type: "scattermap",
         lat: lats,
         lon: lons,
         mode: "markers",
@@ -816,7 +778,7 @@ function PlotlyCartoMap({
         },
       },
       {
-        type: "scattermapbox",
+        type: "scattermap",
         lat: PROV_IDS.map((id) => CENTROIDS[id][1]),
         lon: PROV_IDS.map((id) => CENTROIDS[id][0]),
         mode: "text",
@@ -830,14 +792,14 @@ function PlotlyCartoMap({
       },
     ];
 
-    const layout: Record<string, unknown> = {
+    const layout: any = {
       autosize: true,
       height: 410,
       margin: { l: 0, r: 0, t: 0, b: 0 },
       paper_bgcolor: "rgba(0,0,0,0)",
       plot_bgcolor: "rgba(0,0,0,0)",
       dragmode: "pan",
-      mapbox: {
+      map: {
         style: "carto-positron",
         center: { lat: -0.2, lon: 113.8 },
         zoom: 4.55,
@@ -845,33 +807,31 @@ function PlotlyCartoMap({
       showlegend: false,
     };
 
-    const config: Record<string, unknown> = {
+    const config: any = {
       responsive: true,
       displaylogo: false,
       scrollZoom: true,
       modeBarButtonsToRemove: ["toImage", "sendDataToCloud", "autoScale2d"],
     };
 
-    loadPlotly()
-      .then((Plotly) => {
+    import("plotly.js-dist-min")
+      .then((mod) => {
         if (cancelled || !containerRef.current) return;
-        return Plotly.react(containerRef.current, traces, layout, config).then((gd) => {
+        const Plotly: any = (mod as any).default ?? mod;
+        return Plotly.react(containerRef.current, traces, layout, config).then((gd: any) => {
           if (cancelled) return;
-          const node = gd as HTMLElement & {
-            removeAllListeners?: (ev: string) => void;
-            on?: (ev: string, fn: (data: any) => void) => void;
-          };
-          node.removeAllListeners?.("plotly_click");
-          node.removeAllListeners?.("plotly_selected");
+          setErrorMsg(null);
+          gd.removeAllListeners?.("plotly_click");
+          gd.removeAllListeners?.("plotly_selected");
 
-          node.on?.("plotly_click", (ev) => {
+          gd.on?.("plotly_click", (ev: any) => {
             const pt = ev?.points?.[0];
             if (!pt || pt.curveNumber !== 0) return;
             const cell = DATA.cells[pt.pointIndex];
             if (cell) handlersRef.current.onPickProvince(cell.p);
           });
 
-          node.on?.("plotly_selected", (ev) => {
+          gd.on?.("plotly_selected", (ev: any) => {
             const pts = ev?.points?.filter((p: any) => p.curveNumber === 0) ?? [];
             if (!pts.length) return;
             const selLats = pts.map((p: any) => Number(p.lat));
@@ -885,8 +845,8 @@ function PlotlyCartoMap({
           });
         });
       })
-      .catch(() => {
-        if (!cancelled) setLoadError(true);
+      .catch((err) => {
+        if (!cancelled) setErrorMsg(err instanceof Error ? err.message : String(err));
       });
 
     return () => {
@@ -897,16 +857,21 @@ function PlotlyCartoMap({
   useEffect(() => {
     const el = containerRef.current;
     return () => {
-      if (el && window.Plotly) {
-        window.Plotly.purge(el);
-      }
+      if (!el) return;
+      import("plotly.js-dist-min")
+        .then((mod) => {
+          const Plotly: any = (mod as any).default ?? mod;
+          Plotly.purge?.(el);
+        })
+        .catch(() => {});
     };
   }, []);
 
-  if (loadError) {
+  if (errorMsg) {
     return (
-      <div className="flex h-[410px] items-center justify-center rounded-xl border border-line bg-surface-2 p-4 text-sm text-muted">
-        Unable to load interactive map tiles. Use the province buttons above to filter.
+      <div className="flex h-[410px] flex-col items-center justify-center gap-1 rounded-xl border border-line bg-surface-2 p-4 text-center text-sm text-muted">
+        <span>Unable to load interactive map tiles. Use the province buttons above to filter.</span>
+        <span className="text-xs opacity-70">{errorMsg}</span>
       </div>
     );
   }
